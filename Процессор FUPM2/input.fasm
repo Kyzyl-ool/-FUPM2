@@ -1,0 +1,64 @@
+data2:
+word
+word
+word
+word
+word
+word
+word
+word
+word
+word
+print0:
+syscall r0 102
+lc r0 10
+syscall r0 105
+ret 0
+print1:
+syscall r1 102
+lc r0 10
+syscall r0 105
+ret 0
+print2:
+syscall r2 102
+lc r0 10
+syscall r0 105
+ret 0
+print3:
+syscall r3 102
+lc r0 10
+syscall r0 105
+ret 0
+print4:
+syscall r4 102
+lc r0 10
+syscall r0 105
+ret 0
+print5:
+syscall r5 102
+lc r0 10
+syscall r0 105
+ret 0
+printd3:
+syscall r3 103
+lc r0 10
+syscall r0 105
+ret 0
+exit:
+lc r0 0
+syscall r0 0
+main:
+lc r0 5555
+itod r3 r0 0
+lc r0 999
+itod r5 r0 0
+addd r3 r5 0
+calli printd3
+subd r3 r5 0
+calli printd3
+muld r3 r5 0
+calli printd3
+divd r3 r5 0
+calli printd3
+calli exit
+end main

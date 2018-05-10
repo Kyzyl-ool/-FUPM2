@@ -354,7 +354,7 @@ void FUPM_CPU::SYSCALL(registers r, int number)
             du tmp;
             tmp.u[0] = Registers[r];
             tmp.u[1] = Registers[r+1];
-            printf("%lf", tmp.d);
+            printf("%lg", tmp.d);
             break;
         }
         case 105:
@@ -702,12 +702,16 @@ void FUPM_CPU::load_from_file(string filename)
             labels[tmp] = count+1;
             fin >> tmp;
         }
-        else
+        while (tmp.find("word") != -1)
         {
-            if (cmds[tmp] == -1)
-            {
-                
-            }
+            fin >> tmp;
+            count++;
+        }
+        if (tmp.find(':') + 1 != 0)
+        {
+            tmp.pop_back();
+            labels[tmp] = count+1;
+            fin >> tmp;
         }
         
         if (tmp.find("end ") + 1 != 0) break;
@@ -765,7 +769,17 @@ void FUPM_CPU::load_from_file(string filename)
             fin >> tmp;
             // cout << tmp << endl;
         }
-        else if (tmp.find("end") + 1 != 0)
+        while (tmp.find("word") != -1) {
+            fin >> tmp;
+            Stack[count++] = -1;
+        }
+        if (tmp.find(':') + 1 != 0)
+        {
+            fin >> tmp;
+            // cout << tmp << endl;
+        }
+        
+        if (tmp.find("end") + 1 != 0)
         {
             fin >> tmp;
             Registers[r15] = labels[tmp]-1;
@@ -1035,9 +1049,10 @@ int main()
 {
     FUPM_CPU Test;
     Test.load_from_file("input.fasm");
+//    Test.dump();
     Test.run();
     
-    // Test.dump();
+     // Test.dump();
     return 0;
 }
 
